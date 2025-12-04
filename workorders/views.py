@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 def scaffold_component_list(request):
     components = ScaffoldComponent.objects.all()
 
-    # Filters
+# Filters
     q = request.GET.get('q')
     site_filter = request.GET.get('site')
     category_filter = request.GET.get('category')
@@ -27,11 +27,11 @@ def scaffold_component_list(request):
     if in_use_filter:
         components = components.filter(is_in_use=(in_use_filter == 'true'))
 
-    # Summary Counts
+# Summary Counts
     site_counts = components.values('site').annotate(count=Count('site')).order_by('site')
     condition_counts = components.values('condition').annotate(count=Count('condition')).order_by('condition')
 
-    # Pagination
+# Pagination
     paginator = Paginator(components, 10) # 10 components per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
